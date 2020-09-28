@@ -6,8 +6,11 @@ from . import views
 app_name = 'polls'
 urlpatterns = [
     path('', views.IndexListView.as_view(), name='index'),
-    re_path(r"^(?P<pk>[0-9]+)/$", views.QuestionDetailView.as_view(), name="detail"),
-    re_path(r"^(?P<pk>[0-9]+)/results/$", views.ResultDetailView.as_view(), name="results"),
+    path("<int:pk>/", views.QuestionDetailView.as_view(), name="detail"),
+    path("<int:pk>/results/", views.ResultDetailView.as_view(), name="results"),
+    # we should ues re_path for particular regex and for common ones should use <int:pk>, <str:pk> !!!
+    # here is expample for re_path:
+    # re_path(r"^(?P<pk>[0-9]+)/$", views.QuestionDetailView.as_view(), name="detail"),
     re_path(r"^(?P<question_id>[0-9]+)/vote/$", views.vote, name="vote"),
     
 
