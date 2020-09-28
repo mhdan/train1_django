@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.db.models import F
+from django.utils import timezone
+
 from . import models
 
 
@@ -18,8 +20,12 @@ class IndexListView(generic.ListView):
     context_object_name = 'latest_q_list'
 
     def get_queryset(self):
-        """Return the last 5 published questions."""
-        return models.Question.objects.order_by('-pub_date')[:5]
+        """
+        Return the last 5 published questions (not including those set to be
+        published in the future).
+        """
+        return models.Question.objects.filter(pub_date__lte=timezone.now()
+                                              ).order_by('-pub_date')[:5]
 
 
 # def detail(request, question_id):
@@ -65,7 +71,7 @@ def vote(request, question_id):
         # we can use above code for avoiding race condition with 'F()' function!!!
         # selected_choice.vote += 1
         # selected_choice.save()
-        
+
         # # Always return an HttpResponseRedirect after successfully dealing
         # # with POST data. This prevents data from being posted twice if a
         # # user hits the Back button.
