@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
+from django.db.models import F
 from . import models
 
 
@@ -59,9 +60,13 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice."
         })
     else:
-        selected_choice.vote += 1
+        selected_choice.vote = F('vote') + 1
         selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
+        # we can use above code for avoiding race condition with 'F()' function!!!
+        # selected_choice.vote += 1
+        # selected_choice.save()
+        
+        # # Always return an HttpResponseRedirect after successfully dealing
+        # # with POST data. This prevents data from being posted twice if a
+        # # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=[question_id]))
