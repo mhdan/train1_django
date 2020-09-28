@@ -45,8 +45,8 @@ class QuestionDetailView(generic.DetailView):
         with out this it work, but also include aren't published questions.
         """
         # this filter the normal return values!!!
+        # and all these part is just for that bog and is optional!!!
         return models.Question.objects.filter(pub_date__lte=timezone.now())
-
 
 
 # def results(request, question_id):
@@ -59,6 +59,15 @@ class QuestionDetailView(generic.DetailView):
 class ResultDetailView(generic.DetailView):
     model = models.Question
     template_name = "polls/result.html"
+
+    def get_queryset(self):
+        """
+        Excludes any question's result that aren't published yet. 
+        with out this it work, but also include aren't published questions.
+        """
+        # this filter the normal return values!!!
+        # and all these part is just for that bog and is optional!!!
+        return models.Question.objects.filter(pub_date__lte=timezone.now())
 
 
 def vote(request, question_id):
