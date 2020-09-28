@@ -36,6 +36,7 @@ class QuestionModelTests(TestCase):
         self.assertIs(recent_question.was_published_recently(), True)
 
 
+# this is shortcuts for creating question by given text and specified time offset for next TestClass!
 def create_question(question_text, days):
     """
     Create a question with the given `question_text` and published the
