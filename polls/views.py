@@ -39,6 +39,15 @@ class QuestionDetailView(generic.DetailView):
     model = models.Question
     template_name = "polls/detail.html"
 
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet. 
+        with out this it work, but also include aren't published questions.
+        """
+        # this filter the normal return values!!!
+        return models.Question.objects.filter(pub_date__lte=timezone.now())
+
+
 
 # def results(request, question_id):
 #     """
