@@ -1,3 +1,5 @@
+import datetime
+from django.utils import timezone
 from django.db import models
 
 
@@ -14,6 +16,12 @@ class Question(models.Model):
         String for representring the Model object.
         """
         return self.text
+
+    def was_published_recently(self):
+        """
+        Return true if pub_date is in last 24 hours.
+        """
+        return self.pub_date >= (timezone.now() - datetime.timedelta(days=1))
 
 
 class Choice(models.Model):
