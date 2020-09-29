@@ -9,8 +9,10 @@ class ChoiceInline(admin.TabularInline):
 
 @admin.register(models.Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'pub_date')
+    list_display = ('text', 'pub_date', 'was_published_recently')
     list_filter = ('pub_date',)
+    # add search box with adding 'search_fields' to search on given field!!!
+    search_fields = ['text']
     inlines = [ChoiceInline]
 
 

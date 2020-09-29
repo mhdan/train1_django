@@ -23,6 +23,11 @@ class Question(models.Model):
         """
         now = timezone.now()
         return (now - datetime.timedelta(days=1)) <= self.pub_date <= now
+    # show icon instead of 'True' or 'False'
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Published recently?'
+    # say to order base on what in custom fields or methods!
+    was_published_recently.admin_order_field = 'pub_date'
 
 
 class Choice(models.Model):
