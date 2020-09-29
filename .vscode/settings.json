@@ -1,4 +1,7 @@
 {
     "python.pythonPath": "/home/mohammad/Projects-saveOneDrive/vscode/Python_Projects/train1_django/venv/bin/python3",
-    "editor.fontSize": 15
+    "editor.fontSize": 15,
+    "cSpell.words": [
+        "mylibrary"
+    ]
 }

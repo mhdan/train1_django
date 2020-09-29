@@ -21,13 +21,10 @@ from django.conf.urls.static import static    # these are for static and templat
 
 
 urlpatterns = [
+    path("mylibrary/", include('my_library.urls')),
     path("polls/", include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
-
-
-
-
 
 
 
