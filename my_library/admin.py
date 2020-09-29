@@ -16,6 +16,7 @@ class BookInline(admin.StackedInline):
 
 @admin.register(models.Author)
 class AuthorAdmin(admin.ModelAdmin):
+    search_fields = ['first_name', 'last_name']
     list_display = ('__str__', 'date_of_birth', 'date_of_death')
     list_filter = ('date_of_birth', 'date_of_death')
     # with 'fields' we can group the fields
@@ -25,6 +26,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'isbn']
     list_display = ('title', 'author', 'display_genre')
     list_filter = ('title', 'author', 'genre')
     # the 'inlines' should be added to 1 model!!!(not many model)
@@ -46,6 +48,7 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(models.BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
+    search_fields = ['book__title', 'id']
     list_display = ('__str__', 'status', 'due_back')
     list_filter = ('book', 'status', 'due_back')
 
