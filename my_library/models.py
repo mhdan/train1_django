@@ -2,6 +2,9 @@ from django.db import models
 import uuid  # Required for unique book instances
 from django.urls import reverse
 # Used to generate URLs by reversing the URL patterns
+from django.contrib.auth.models import User
+# user with authenticating ability
+from datetime import date
 
 
 class Author(models.Model):
@@ -47,6 +50,8 @@ class BookInstance(models.Model):
 
     status = models.CharField(max_length=1, choices=LOAN_STATUS,
                               blank=True, default='m', help_text='Book availability')
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL,
+                                 null=True, blank=True)
 
     # the 'Meta' class is used for ordering the items of class in queries!
     # we set the fields that we want to sort based on in ordering list!!!
@@ -54,12 +59,28 @@ class BookInstance(models.Model):
         ordering = ["due_back"]
         # we can also set that null values were on the last!!!!
 
-
     def __str__(self):
         """
         String for representing the Model object
         """
         return '%s (%s)' % (self.id, self.book.title)
+
+    # property make it available same as filed :)
+    # @property
+    def _is_overdue(self):
+        """
+        if the due_back is over and been late return True
+        else if have time return True
+        """
+        if self.due_back and (date.today() > self.due_back):
+            return True
+        return False
+    # show icon instead of 'True' or 'False'
+    _is_overdue.boolean = True
+    _is_overdue.short_description = 'overdue for back?'
+    _is_overdue.admin_order_field = 'due_back'
+    # make property of func in other attribute
+    is_overdue = property(_is_overdue)
 
 
 class Book(models.Model):
