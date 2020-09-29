@@ -24,8 +24,8 @@
                 {% block sidebar %}
                 <ul class="sidebar-nav">
                     <li><a href="{% url 'my_library:index' %}">Home</a></li>
-                    <li><a href="">All books</a></li>
-                    <li><a href="">All authors</a></li>
+                    <li><a href="{% url 'my_library:books' %}">All books</a></li>
+                    <li><a href="{% url 'my_library:authors' %}">All authors</a></li>
                     <li><a href="/admin/">Admin Panel</a></li>
                 </ul>
                 {% endblock %}

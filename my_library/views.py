@@ -33,3 +33,18 @@ class IndexView(generic.TemplateView):
             status__exact='a').count()
         context["num_authors"] = models.Author.objects.all().count()
         return context
+
+
+class BookListView(generic.ListView):
+    model = models.Book
+    template_name = "my_library/book_list.html"
+
+
+class BookDetailView(generic.DetailView):
+    model = models.Book
+    template_name = "my_library/book_detail.html"
+
+
+class AuthorListView(generic.ListView):
+    model = models.Author
+    template_name = "my_library/author_list.html"

@@ -24,7 +24,7 @@ class Author(models.Model):
         """
         Returns the url to access a particular author instance.
         """
-        return reverse('author-detail', args=[str(self.id)])
+        return reverse('my_library:author-detail', args=[str(self.id)])
 
 
 class BookInstance(models.Model):
@@ -90,7 +90,7 @@ class Book(models.Model):
         """
         Returns the url to access a particular book instance.
         """
-        return reverse('book-detail', args=[str(self.id)])
+        return reverse('my_library:book-detail', args=[str(self.id)])
 
     def display_genre(self):
         """
