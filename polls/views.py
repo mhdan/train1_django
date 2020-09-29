@@ -25,7 +25,8 @@ class IndexListView(generic.ListView):
         published in the future).
         """
         return models.Question.objects.filter(pub_date__lte=timezone.now()
-                                              ).order_by('-pub_date')[:5]
+                                              ).exclude(choice__isnull=True
+                                                        ).order_by('-pub_date')[:5]
 
 
 # def detail(request, question_id):
@@ -46,7 +47,7 @@ class QuestionDetailView(generic.DetailView):
         """
         # this filter the normal return values!!!
         # and all these part is just for that bog and is optional!!!
-        return models.Question.objects.filter(pub_date__lte=timezone.now())
+        return models.Question.objects.filter(pub_date__lte=timezone.now()).exclude(choice__isnull=True)
 
 
 # def results(request, question_id):
@@ -67,7 +68,7 @@ class ResultDetailView(generic.DetailView):
         """
         # this filter the normal return values!!!
         # and all these part is just for that bog and is optional!!!
-        return models.Question.objects.filter(pub_date__lte=timezone.now())
+        return models.Question.objects.filter(pub_date__lte=timezone.now()).exclude(choice__isnull=True)
 
 
 def vote(request, question_id):
