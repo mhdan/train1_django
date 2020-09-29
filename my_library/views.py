@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+# for required login to specific View!
 
 from . import models
 
@@ -48,3 +50,17 @@ class BookDetailView(generic.DetailView):
 class AuthorListView(generic.ListView):
     model = models.Author
     template_name = "my_library/author_list.html"
+
+
+class LoanedBooksByUserModelListView(LoginRequiredMixin, generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user. 
+    """
+    model = models.BookInstance
+    template_name = "my_library/bookinstance_list_borrowed_user.html"
+    paginate_by = 10
+    # this for count of instances show on each page!
+
+    def get_queryset(self):
+        return models.BookInstance.objects.filter(borrower=self.request.user
+                                                  ).filter(status__exact='o').order_by('due_back')

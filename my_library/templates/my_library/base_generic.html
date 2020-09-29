@@ -27,6 +27,7 @@
                     <li><a href="{% url 'my_library:books' %}">All books</a></li>
                     <li><a href="{% url 'my_library:authors' %}">All authors</a></li>
                     <li><a href="/admin/">Admin Panel</a></li>
+                    <li><a href="{% url 'my_library:my-borrowed' %}">My Borrowed</a></li>
                     <br>
                     {% if user.is_authenticated %}
                         <li>User: {{ user.get_username }}</li>
