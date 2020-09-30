@@ -5,8 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import permission_required, login_required
 # this for permission required for specific func View
-from django.contrib.auth.mixins import LoginRequiredMixin
-# for required login to specific View!
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+# for required login and required permission to specific View!
 import datetime
 
 from . import models
@@ -78,20 +78,23 @@ class LoanedBooksByUserModelListView(LoginRequiredMixin, generic.ListView):
                                                   ).filter(status__exact='o').order_by('due_back')
 
 
-class AuthorCreateView(LoginRequiredMixin, generic.CreateView):
+class AuthorCreateView(PermissionRequiredMixin, generic.CreateView):
+    permission_required = ['my_library.add_author']
     model = models.Author
     # template_name = ".html"  ---> the default template view for create is "suffixname_form"
     fields = '__all__'
     initial = {'date_of_birth': '05/01/2018'}
 
 
-class AuthorUpdateView(LoginRequiredMixin, generic.UpdateView):
+class AuthorUpdateView(PermissionRequiredMixin, generic.UpdateView):
+    permission_required = ['my_library.change_author']
     model = models.Author
     # template_name = ".html"  ---> the default template view for update is "suffixname_form"
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
 
 
-class AuthorDeleteView(LoginRequiredMixin, generic.DeleteView):
+class AuthorDeleteView(PermissionRequiredMixin, generic.DeleteView):
+    permission_required = ['my_library.delete_author']
     model = models.Author
     # template_name = ".html"  ---> the default template view for this delete "suffixname_confirm_delete"
     success_url = reverse_lazy('my_library:authors')
@@ -99,7 +102,7 @@ class AuthorDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 # # it didn't work, and don't let user access this View even if they the specific access!
-# @permission_required('mylibrary.can_renew_due_back')
+@permission_required('mylibrary.can_renew_due_back')
 def renew_book_librarian(request, pk):
     """
     View function for renewing a specific BookInstance by librarian
