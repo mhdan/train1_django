@@ -58,6 +58,8 @@ class BookInstance(models.Model):
     class Meta:
         ordering = ["due_back"]
         # we can also set that null values were on the last!!!!
+        permissions = [('can_renew_due_back', 'Can renew due back')]
+        # set permission access!
 
     def __str__(self):
         """
