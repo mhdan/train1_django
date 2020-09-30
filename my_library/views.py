@@ -52,6 +52,11 @@ class AuthorListView(generic.ListView):
     template_name = "my_library/author_list.html"
 
 
+class AuthorDetailView(generic.DetailView):
+    model = models.Author
+    template_name = "my_library/author_detail.html"
+
+
 class LoanedBooksByUserModelListView(LoginRequiredMixin, generic.ListView):
     """
     Generic class-based view listing books on loan to current user. 
