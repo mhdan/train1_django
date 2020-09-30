@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+# for reverse from 'class base' Views!
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import permission_required, login_required
 # this for permission required for specific func View
@@ -75,6 +76,26 @@ class LoanedBooksByUserModelListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return models.BookInstance.objects.filter(borrower=self.request.user
                                                   ).filter(status__exact='o').order_by('due_back')
+
+
+class AuthorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = models.Author
+    # template_name = ".html"  ---> the default template view for create is "suffixname_form"
+    fields = '__all__'
+    initial = {'date_of_birth': '05/01/2018'}
+
+
+class AuthorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = models.Author
+    # template_name = ".html"  ---> the default template view for update is "suffixname_form"
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
+
+class AuthorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = models.Author
+    # template_name = ".html"  ---> the default template view for this delete "suffixname_confirm_delete"
+    success_url = reverse_lazy('my_library:authors')
+    # the success_url in others has default url, but in delete you should set it manually!
 
 
 # # it didn't work, and don't let user access this View even if they the specific access!

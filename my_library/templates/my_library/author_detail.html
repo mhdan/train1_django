@@ -5,6 +5,7 @@
 <h1>Author Information</h1>
 <hr>
 <h2>Author: {{ author.last_name }}</h2>
+<h4><a href="{% url 'my_library:author-update' author.id %}">edit</a> | <a href="{% url 'my_library:author-delete' author.id %}">delete</a></h4>
 <p><strong>author's first name:</strong> {{ author.first_name }}</p>
 <p><strong>date of birth:</strong> {{ author.date_of_birth }}</p>
 <p><strong>date of death:</strong> {{ author.date_of_death }}</p>
