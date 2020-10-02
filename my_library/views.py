@@ -80,6 +80,7 @@ class LoanedBooksByUserModelListView(LoginRequiredMixin, generic.ListView):
 
 class AuthorCreateView(PermissionRequiredMixin, generic.CreateView):
     permission_required = ['my_library.add_author']
+    # raise_exception = False
     model = models.Author
     # template_name = ".html"  ---> the default template view for create is "suffixname_form"
     fields = '__all__'
@@ -102,7 +103,7 @@ class AuthorDeleteView(PermissionRequiredMixin, generic.DeleteView):
 
 
 # # it didn't work, and don't let user access this View even if they the specific access!
-@permission_required('mylibrary.can_renew_due_back')
+@permission_required('my_library.can_renew_due_back')
 def renew_book_librarian(request, pk):
     """
     View function for renewing a specific BookInstance by librarian
